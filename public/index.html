@@ -4,28 +4,20 @@
     <meta charset="utf-8" />
     <title>SawBlades</title>
     <style>* { padding: 0; margin: 0; } canvas { background: #eee; display: block; margin: 0 auto; }</style>
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore-compat.js"></script>
-    <script>
-        // TODO: Add SDKs for Firebase products that you want to use
-        const firebaseConfig = {
-            apiKey: "AIzaSyBmVdHkNgeCcFjjcijerCPZEEySCn1q7ZA",
-            authDomain: "sawblades-f9106.firebaseapp.com",
-            projectId: "sawblades-f9106",
-            storageBucket: "sawblades-f9106.appspot.com",
-            messagingSenderId: "815820681728",
-            appId: "1:815820681728:web:f365f7b5d6f5bcbe351ee5",
-            measurementId: "G-KLXENKYCDM"
-        };
-        
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-    </script>
+    <script type = "module" src = "http://localhost:8000/index.js"></script>
 </head>
 
 <body>
-    <canvas id = "myCanvas", width = "480", height = "640"></canvas>
-    <script src = "script.js", type = "module"></script>
+    
+    <!-- <canvas id = "myCanvas", width = "480", height = "640"></canvas>
+    <form>
+        <label name = "Name">Name</label>
+        <input type = "text" id = "Name" name = "Name">
+        <input type = "button" value = "submit" id = "submit">
+    </form>
+
+    <script src = "script.js"></script> -->
+    
 </body>
 
 </html>

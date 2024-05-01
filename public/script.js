@@ -1,39 +1,3 @@
-// Import the functions you need from the SDKs you need
-import firebase from "firebase/app";
-import "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBmVdHkNgeCcFjjcijerCPZEEySCn1q7ZA",
-  authDomain: "sawblades-f9106.firebaseapp.com",
-  projectId: "sawblades-f9106",
-  storageBucket: "sawblades-f9106.appspot.com",
-  messagingSenderId: "815820681728",
-  appId: "1:815820681728:web:f365f7b5d6f5bcbe351ee5",
-  measurementId: "G-KLXENKYCDM"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-async function getCities() {
-    const CitiesCol = db.collections("Cities");
-    let CitiesSnapshot = await CitiesCol.get();
-    const citiesList = CitiesSnapshot.docs.map(doc => doc.data());
-    return citiesList;
-}
-
-const array = getCities();
-
-console.log(citiesList);
-
-
-
 canvas = document.getElementById("myCanvas");
 ctx = canvas.getContext("2d");
 
@@ -46,6 +10,7 @@ let vx = 6;
 let boost = 17;
 let timer = 3;  
 let score = 0;
+let userName = "Anonymous";
 
 const err = 5;
 
@@ -65,7 +30,7 @@ function makeSaw() {
     for (let i = 0; i < numBlades; i++) {
         let x = randInt(radius, canvas.width-radius);
         let y = 0;
-        let vx = randInt(2, 3);
+        let vx = randInt(3, 4);
         let vy = randInt(3, 4);
         let sign = randInt(0, 1);
         if (sign == 1) {
@@ -82,7 +47,7 @@ function makeSaw() {
     }
 }
 
-const interval = setInterval(makeSaw, 2000);
+let interval;
 
 function drawBlades() {
     for (let i = 0; i < blades.length; i++) {
@@ -196,25 +161,25 @@ function displayScore() {
 }
 
 function handleKeyDown(e) {
-    if (e.key == "Right" || e.key == "ArrowRight") {
+    if (e.key == "Right" || e.key == "ArrowRight" || e.key == 'd') {
         rightPressed = true;
     }
 
-    else if (e.key == "Left" || e.key == "ArrowLeft") {
+    else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == "a") {
         leftPressed = true;
     }
 
-    else if ((e.key == "Up" || e.key == "ArrowUp") && jumps) {
+    else if ((e.key == "Up" || e.key == "ArrowUp" || e.key == ' ') && jumps) {
         vy = -boost;
         jumps -= 1;
     }
 }
 
 function handleKeyUp(e) {
-    if (e.key == "Right" || e.key == "ArrowRight") {
+    if (e.key == "Right" || e.key == "ArrowRight" || e.key == 'd') {
         rightPressed = false;
     }
-    else if (e.key == "Left" || e.key == "ArrowLeft") {
+    else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == 'a') {
         leftPressed = false;
     }
 }
@@ -239,4 +204,17 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-draw();
+function start(e) {
+    console.log("hello again");
+    userName = document.getElementById("Name").value;
+    if (userName == "") {
+        userName = "Anonymous";
+    }
+    console.log(userName);
+    interval = setInterval(makeSaw, 2000);
+    draw();
+}
+
+
+document.getElementById("submit").onclick = start;
+

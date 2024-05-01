@@ -1,5 +1,7 @@
-canvas = document.getElementById("myCanvas");
-ctx = canvas.getContext("2d");
+import { addToLeaderboard } from "./index.js";
+
+let canvas = document.getElementById("myCanvas");
+let ctx = canvas.getContext("2d");
 
 let radius = 20;                    //bladeRadius = radius
 let y = canvas.height - radius;
@@ -10,9 +12,9 @@ let vx = 6;
 let boost = 17;
 let timer = 3;  
 let score = 0;
-let userName = "Anonymous";
+let jumps;
 
-const err = 5;
+const err = 6;
 
 let leftPressed = false;
 let rightPressed = false;
@@ -136,7 +138,7 @@ function distance(x1, y1, x2, y2) {
     return dist**0.5;
 }
 
-function collisionDetection() {
+async function collisionDetection() {
     for (let i = 0; i < blades.length; i++) {
         let blade = blades[i];
         if (y < blade.y && (x > blade.x-err && x < blade.x+err)) {
@@ -145,11 +147,16 @@ function collisionDetection() {
         }
 
         if (distance(blade.x, blade.y, x, y) < 2*radius) {
-            alert("Game over");
-            document.location.reload();
-            clearInterval(interval);
+            let val = prompt("Enter a name for the Leaderboard. Your score is " + score);
             x = -1000;
             y = -1000;
+            if (val != null && val != "") {
+                console.log(val + " " + score);
+                await addToLeaderboard(val, score);
+            }
+            clearInterval(interval);
+            document.location.reload();
+            
         }
     }
 }
@@ -204,17 +211,23 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-function start(e) {
-    console.log("hello again");
-    userName = document.getElementById("Name").value;
-    if (userName == "") {
-        userName = "Anonymous";
+function start() {
+    y = canvas.height - radius;
+    x = canvas.width/2;
+    vy = 0;
+    jumps = 2;
+    score = 0;
+    while (blades.length) {
+        blades.pop();
     }
-    console.log(userName);
+    vx = 6;
+    leftPressed = false;
+    rightPressed = false;
+
     interval = setInterval(makeSaw, 2000);
-    draw();
+    requestAnimationFrame(draw);
 }
 
+start();
 
-document.getElementById("submit").onclick = start;
 

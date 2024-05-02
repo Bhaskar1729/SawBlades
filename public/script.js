@@ -242,6 +242,7 @@ async function fillLeaderboard() {
     }
     table.innerHTML = text;
     minHighest = arr[arr.size-1]["score"];
+    console.log(minHighest)
 }
 
 function start() {

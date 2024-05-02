@@ -13,7 +13,7 @@ let boost = 17;
 let timer = 3;  
 let score = 0;
 let jumps;
-let minHighest = -1;
+let minHighest = 500;
 
 const err = 6;
 
@@ -238,10 +238,10 @@ async function fillLeaderboard() {
         console.log(doc);
         let name = doc["name"];
         let score = doc["score"];
+        minHighest = Math.min(minHighest, score);
         text += "<tr><td>"+name+"</td><td>" +score+"</td></tr>";
     }
     table.innerHTML = text;
-    minHighest = arr[arr.size-1]["score"];
     console.log(minHighest)
 }
 

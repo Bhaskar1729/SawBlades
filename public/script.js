@@ -6,7 +6,7 @@ let ctx = canvas.getContext("2d");
 let radius = 20;                    //bladeRadius = radius
 let y = canvas.height - radius;
 let x = canvas.width/2;
-let g = 1;
+let g = 0.8;
 let vy = 0;
 let vx = 6;
 let boost = 17;
@@ -178,7 +178,11 @@ function handleKeyDown(e) {
     }
 
     else if ((e.key == "Up" || e.key == "ArrowUp" || e.key == ' ') && jumps) {
-        vy = -boost;
+        if (jumps == 1)
+            vy = -boost*0.8;
+        else {
+            vy = -boost;
+        }
         jumps -= 1;
     }
 }

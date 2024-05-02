@@ -225,8 +225,8 @@ function fillLeaderboard(arr) {
     table.innerHTML = text;
 }
 
-async function start() {
-    const arr = await getLeaderboardItems();
+function start() {
+    const arr = getLeaderboardItems();
     console.log(arr);
     fillLeaderboard(arr);
     y = canvas.height - radius;

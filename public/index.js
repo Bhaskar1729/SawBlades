@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"
-import { getFirestore, getDocs, collection, addDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
+import { getFirestore, getDocs, collection, addDoc, doc, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyBmVdHkNgeCcFjjcijerCPZEEySCn1q7ZA",
@@ -16,23 +16,26 @@ let firebaseApp = initializeApp(firebaseConfig);
 
 const db = getFirestore(firebaseApp);
 
-const citiesCol = collection(db, "Cities");
-
-const querySnapshot = await getDocs(citiesCol);
-
-console.log(querySnapshot.size);
-
-querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
-});
+let citiesCol = await query(collection(db, "Cities"), orderBy("Area", "desc"), limit(10));
 
 
 export async function addToLeaderboard(name, score) {
-    await addDoc(citiesCol, {
+    await addDoc(collection(db, "Cities"), {
         Name: name,
         Area: score
     });
+}
 
+export async function getLeaderboardItems() {
+    const querySnapshot = await getDocs(citiesCol);
+    const arr = [];
+    for (let i = 0; i< querySnapshot.size; i++) {
+        let person = {"name": "lol", "score": 0};
+        person["name"] = querySnapshot.docs[i].data()["Name"];
+        person["score"] = querySnapshot.docs[i].data()["Area"];
+        console.log(person["name"], person["score"]);
+        arr.push(person);
+    }
+    return arr;
 }
 

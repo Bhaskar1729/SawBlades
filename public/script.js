@@ -1,4 +1,4 @@
-import { addToLeaderboard } from "./index.js";
+import { addToLeaderboard, getLeaderboardItems } from "./index.js";
 
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
@@ -161,6 +161,7 @@ async function collisionDetection() {
     }
 }
 
+
 function displayScore() {
     ctx.font = "32px Arial"
     ctx.fillStyle = "black";
@@ -211,7 +212,23 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-function start() {
+function fillLeaderboard(arr) {
+    const table = document.getElementById("leaderboard");
+    let text = "";
+    console.log(arr);
+    for (let doc of arr) {
+        console.log(doc);
+        let name = doc["name"];
+        let score = doc["score"];
+        text += "<tr><td>"+name+"</td><td>" +score+"</td></tr>";
+    }
+    table.innerHTML = text;
+}
+
+async function start() {
+    const arr = await getLeaderboardItems();
+    console.log(arr);
+    fillLeaderboard(arr);
     y = canvas.height - radius;
     x = canvas.width/2;
     vy = 0;
@@ -227,6 +244,10 @@ function start() {
     interval = setInterval(makeSaw, 2000);
     requestAnimationFrame(draw);
 }
+
+
+
+
 
 start();
 

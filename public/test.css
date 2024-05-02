@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+  }
+  
+  canvas {
+    border: 1px solid black;
+    /* Set desired width and height */
+    width: 200px;
+    height: 200px;
+    background-color: blue;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin-left: 10px; /* Adjust the spacing between the canvas and the table */
+  }
+  
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+  

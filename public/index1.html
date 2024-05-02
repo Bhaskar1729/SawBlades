@@ -3,13 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <title>SawBlades</title>
-    <style>* { padding: 0; margin: 0; } canvas { background: #eee; display: block; margin: 0 auto; }</style>
+    <style>* { padding: 0; margin: 0; } canvas { background: #eee; margin: 0 }</style>
     <script type = "module" src = "http://localhost:8000/index.js"></script>
 </head>
 
 <body>
+
+    <div style = "display :flex; height: 400; padding: 20px">
+        <div style = "flex:1;"></div>
+        <canvas id = "myCanvas", width = "480", height = "400" style = "padding: 30px; flex: 2"></canvas>
+        <table id = "leaderboard", font = "15 Arial", style = "padding:30px; flex: 1"></table>
     
-    <canvas id = "myCanvas", width = "480", height = "640"></canvas>
+    </div>
 
     <script type = "module" src = "http://localhost:8000/script.js"></script>
     

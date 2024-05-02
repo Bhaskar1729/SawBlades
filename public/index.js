@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/fireba
 import { getFirestore, getDocs, collection, addDoc, doc, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
 
 const firebaseConfig = {
-    apiKey: my_api_key,
+    apiKey: process.env.my_api_key,
     authDomain: "sawblades-f9106.firebaseapp.com",
     projectId: "sawblades-f9106",
     storageBucket: "sawblades-f9106.appspot.com",

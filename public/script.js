@@ -202,13 +202,14 @@ document.addEventListener("keyup", handleKeyUp, false);
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     displayScore();
-    collisionDetection();
     updateBall();
     drawBall();
     if (y == canvas.height-radius) {
         updateBlades();
     }
     drawBlades();
+    collisionDetection();
+
     requestAnimationFrame(draw);
 }
 

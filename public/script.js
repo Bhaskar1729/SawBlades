@@ -212,7 +212,9 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-function fillLeaderboard(arr) {
+async function fillLeaderboard() {
+    const arr = await getLeaderboardItems();
+    console.log(arr);
     const table = document.getElementById("leaderboard");
     let text = "";
     console.log(arr);
@@ -226,9 +228,8 @@ function fillLeaderboard(arr) {
 }
 
 function start() {
-    const arr = getLeaderboardItems();
-    console.log(arr);
-    fillLeaderboard(arr);
+    
+    fillLeaderboard();
     y = canvas.height - radius;
     x = canvas.width/2;
     vy = 0;

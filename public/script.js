@@ -13,6 +13,7 @@ let boost = 17;
 let timer = 3;  
 let score = 0;
 let jumps;
+let minHighest = -1;
 
 const err = 6;
 
@@ -138,6 +139,12 @@ function distance(x1, y1, x2, y2) {
     return dist**0.5;
 }
 
+function getCookie (name) {
+	let value = `; ${document.cookie}`;
+	let parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 async function collisionDetection() {
     for (let i = 0; i < blades.length; i++) {
         let blade = blades[i];
@@ -147,10 +154,14 @@ async function collisionDetection() {
         }
 
         if (distance(blade.x, blade.y, x, y) < 2*radius) {
-            let val = prompt("Enter a name for the Leaderboard. Your score is " + score);
+            let val = getCookie("name");
+            if (!val) {
+                val = prompt("Enter a name for the Leaderboard. Your score is " + score);
+                document.cookie = "name="+val+";";
+            }
             x = -1000;
             y = -1000;
-            if (val != null && val != "") {
+            if (val != null && val != "" && score > minHighest) {
                 console.log(val + " " + score);
                 await addToLeaderboard(val, score);
             }
@@ -230,6 +241,7 @@ async function fillLeaderboard() {
         text += "<tr><td>"+name+"</td><td>" +score+"</td></tr>";
     }
     table.innerHTML = text;
+    minHighest = arr[arr.size-1]["score"];
 }
 
 function start() {

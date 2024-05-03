@@ -16,7 +16,7 @@ let jumps;
 let minHighest = 500;
 let makeBladeTimer = 2500;
 let timerRunOut = false;
-let timeoutCompleted = true;
+let timeoutCompleted = false;
 
 const err = 6;
 

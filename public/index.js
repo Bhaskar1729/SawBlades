@@ -16,23 +16,23 @@ let firebaseApp = initializeApp(firebaseConfig);
 
 const db = getFirestore(firebaseApp);
 
-let citiesCol = await query(collection(db, "Cities"), orderBy("Area", "desc"), limit(10));
+let ScoresCol = await query(collection(db, "Scores"), orderBy("Score", "desc"), limit(10));
 
 
 export async function addToLeaderboard(name, score) {
-    await addDoc(collection(db, "Cities"), {
+    await addDoc(collection(db, "Scores"), {
         Name: name,
-        Area: score
+        Score: score
     });
 }
 
 export async function getLeaderboardItems() {
-    const querySnapshot = await getDocs(citiesCol);
+    const querySnapshot = await getDocs(ScoresCol);
     const arr = [];
     for (let i = 0; i< querySnapshot.size; i++) {
         let person = {"name": "lol", "score": 0};
         person["name"] = querySnapshot.docs[i].data()["Name"];
-        person["score"] = querySnapshot.docs[i].data()["Area"];
+        person["score"] = querySnapshot.docs[i].data()["Score"];
         console.log(person["name"], person["score"]);
         arr.push(person);
     }

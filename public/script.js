@@ -276,7 +276,7 @@ function draw() {
     if (timeoutCompleted) {
         let newTime = Math.max(1000, 2500-10*score);
         if (timerRunOut == true) {
-            newTime = 500;
+            newTime = 750;
         }
         setTimeout(makeSaw, newTime);
         timeoutCompleted = false;

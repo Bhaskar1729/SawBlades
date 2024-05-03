@@ -15,7 +15,7 @@ let score = 0;
 let jumps;
 let minHighest = 500;
 let makeBladeTimer = 2500;
-
+let timerRunOut = false;
 
 const err = 6;
 
@@ -60,6 +60,7 @@ function updateTimer() {
     timer -= 1;
     if (timer <= 0) {
         timer = 0;
+        timerRunOut = true;
     }
 }
 
@@ -268,7 +269,7 @@ function draw() {
     drawBlades();
 
     makeBladeTimer = Math.max(500, 2500-20*score)
-    if (timer <= 0) {
+    if (timerRunOut) {
         makeBladeTimer = 500;
     }
 

@@ -153,7 +153,9 @@ function updateBlades() {
     }
 
     if (count > 0) {
-        timer += (2*count - 1)/2;
+        if (!timerRunOut) {
+            timer += (2*count - 1)/2;
+        }
     }
 
 }

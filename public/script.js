@@ -3,7 +3,7 @@ import { addToLeaderboard, getLeaderboardItems } from "./index.js";
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 
-let radius = 20;                    //bladeRadius = radius
+let radius = 10;                    //bladeRadius = radius
 let y = canvas.height - radius;
 let x = canvas.width/2;
 let g = 0.8;
@@ -14,6 +14,7 @@ let timer = 60;
 let score = 0;
 let jumps;
 let minHighest = 500;
+let makeBladeTimer = 2500;
 
 
 const err = 6;
@@ -263,6 +264,7 @@ function draw() {
     }
     drawBlades();
 
+    makeBladeTimer = Math.max(500, 2500-20*score)
 
     requestAnimationFrame(draw);
 }
@@ -299,7 +301,7 @@ function start() {
     leftPressed = false;
     rightPressed = false;
 
-    interval = setInterval(makeSaw, 2000);
+    interval = setInterval(makeSaw, makeBladeTimer);
     timerInterval = setInterval(updateTimer, 1000);
     requestAnimationFrame(draw);
 }

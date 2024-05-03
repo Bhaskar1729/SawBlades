@@ -1,5 +1,5 @@
 import { addToLeaderboard, getLeaderboardItems } from "./index.js";
-s
+
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 
@@ -16,6 +16,7 @@ let jumps;
 let minHighest = 500;
 let makeBladeTimer = 2500;
 let timerRunOut = true;
+let timeoutCompleted = true;
 
 const err = 6;
 
@@ -32,6 +33,7 @@ function randInt(a, b) {
 }
 
 function makeSaw() {
+    timeoutCompleted = true;
     let numBlades = randInt(1, 3);
     for (let i = 0; i < numBlades; i++) {
         let x = randInt(radius, canvas.width-radius);
@@ -270,13 +272,15 @@ function draw() {
     }
     drawBlades();
 
-    if (timerRunOut) {
-        makeBladeTimer = 20;
-    }
-    else {
-        makeBladeTimer = Math.max(500, 2500-20*score)
-    }
 
+    if (timeoutCompleted) {
+        let newTime = 2500-20*score;
+        if (timerRunOut == true) {
+            newTime = 500;
+        }
+        setTimeout(makeSaw, newTime);
+        timeoutCompleted = false;
+    }
     requestAnimationFrame(draw);
 }
 
@@ -312,7 +316,7 @@ function start() {
     leftPressed = false;
     rightPressed = false;
 
-    interval = setInterval(makeSaw, makeBladeTimer);
+    interval = setTimeout(makeSaw, 2500);
     timerInterval = setInterval(updateTimer, 1000);
     requestAnimationFrame(draw);
 }

@@ -58,6 +58,9 @@ let timerInterval;
 
 function updateTimer() {
     timer -= 1;
+    if (timer <= 0) {
+        timer = 0;
+    }
 }
 
 function displayTimer() {
@@ -265,6 +268,9 @@ function draw() {
     drawBlades();
 
     makeBladeTimer = Math.max(500, 2500-20*score)
+    if (timer <= 0) {
+        makeBladeTimer = 500;
+    }
 
     requestAnimationFrame(draw);
 }

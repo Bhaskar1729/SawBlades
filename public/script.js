@@ -156,7 +156,7 @@ function updateBlades() {
 
 function checkTimer() {
     if (timer <= 0) {
-        endGame();
+        makeBladeTimer = 500;
     }
 }
 

@@ -15,7 +15,7 @@ let score = 0;
 let jumps;
 let minHighest = 500;
 let makeBladeTimer = 2500;
-let timerRunOut = true;
+let timerRunOut = false;
 let timeoutCompleted = true;
 
 const err = 6;
@@ -274,7 +274,7 @@ function draw() {
 
 
     if (timeoutCompleted) {
-        let newTime = 2500-20*score;
+        let newTime = Math.max(1000, 2500-10*score);
         if (timerRunOut == true) {
             newTime = 500;
         }

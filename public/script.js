@@ -15,7 +15,7 @@ let score = 0;
 let jumps;
 let minHighest = 500;
 let makeBladeTimer = 2500;
-let timerRunOut = false;
+let timerRunOut = true;
 
 const err = 6;
 
@@ -270,9 +270,11 @@ function draw() {
     }
     drawBlades();
 
-    makeBladeTimer = Math.max(500, 2500-20*score)
     if (timerRunOut) {
-        makeBladeTimer = 500;
+        makeBladeTimer = 20;
+    }
+    else {
+        makeBladeTimer = Math.max(500, 2500-20*score)
     }
 
     requestAnimationFrame(draw);

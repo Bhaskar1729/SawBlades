@@ -3,7 +3,7 @@ import { addToLeaderboard, getLeaderboardItems } from "./index.js";
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
 
-let radius = 10;                    //bladeRadius = radius
+let radius = 15;                    //bladeRadius = radius
 let y = canvas.height - radius;
 let x = canvas.width/2;
 let g = 0.8;

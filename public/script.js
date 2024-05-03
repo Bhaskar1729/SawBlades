@@ -10,15 +10,17 @@ let g = 0.8;
 let vy = 0;
 let vx = 6;
 let boost = 17;
-let timer = 3;  
+let timer = 60;  
 let score = 0;
 let jumps;
 let minHighest = 500;
+
 
 const err = 6;
 
 let leftPressed = false;
 let rightPressed = false;
+let jumpPressed = false;
 
 const blades = [];
 
@@ -51,6 +53,16 @@ function makeSaw() {
 }
 
 let interval;
+let timerInterval;
+
+function updateTimer() {
+    timer -= 1;
+}
+
+function displayTimer() {
+    const div = document.getElementById("timer");
+    div.innerHTML = timer;
+}
 
 function drawBlades() {
     for (let i = 0; i < blades.length; i++) {
@@ -125,12 +137,45 @@ function updateBlades() {
 
     }
 
+    let count = 0;
+
     while (blades.length > 0 && (blades[blades.length-1].status == 1 || blades[blades.length-1].y < 0)) {
         let temp = blades.pop();
         if (temp.status == 1) {
             score += 1;
+            count += 1;
         }
     }
+
+    if (count > 0) {
+        timer += (2*count - 1)/2;
+    }
+
+}
+
+function checkTimer() {
+    if (timer <= 0) {
+        endGame();
+    }
+}
+
+async function endGame() {
+    let val = getCookie("name");
+    if (!val) {
+        val = prompt("Enter a name for the Leaderboard. Your score is " + score);
+        document.cookie = "name="+val+";";
+    }
+    x = -1000;
+    y = -1000;
+    timer = 1000;
+
+    if (val != null && val != "" && score > minHighest) {
+        console.log(val + " " + score);
+        await addToLeaderboard(val, score);
+    }
+    clearInterval(interval);
+    clearInterval(timerInterval);
+    document.location.reload();
 }
 
 function distance(x1, y1, x2, y2) {
@@ -154,20 +199,7 @@ async function collisionDetection() {
         }
 
         if (distance(blade.x, blade.y, x, y) < 2*radius) {
-            let val = getCookie("name");
-            if (!val) {
-                val = prompt("Enter a name for the Leaderboard. Your score is " + score);
-                document.cookie = "name="+val+";";
-            }
-            x = -1000;
-            y = -1000;
-            if (val != null && val != "" && score > minHighest) {
-                console.log(val + " " + score);
-                await addToLeaderboard(val, score);
-            }
-            clearInterval(interval);
-            document.location.reload();
-            
+            endGame();            
         }
     }
 }
@@ -188,7 +220,8 @@ function handleKeyDown(e) {
         leftPressed = true;
     }
 
-    else if ((e.key == "Up" || e.key == "ArrowUp" || e.key == ' ') && jumps) {
+    else if ((e.key == "Up" || e.key == "ArrowUp" || e.key == ' ') && jumpPressed == false && jumps) {
+        jumpPressed = true;
         if (jumps == 1)
             vy = -boost*0.8;
         else {
@@ -205,6 +238,9 @@ function handleKeyUp(e) {
     else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == 'a') {
         leftPressed = false;
     }
+    else if ((e.key == "Up" || e.key == "ArrowUp" || e.key == ' ')) {
+        jumpPressed = false;
+    }
 }
 
 
@@ -217,13 +253,16 @@ document.addEventListener("keyup", handleKeyUp, false);
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     displayScore();
+    displayTimer();
     collisionDetection();
     updateBall();
     drawBall();
+    checkTimer();
     if (y == canvas.height-radius) {
         updateBlades();
     }
     drawBlades();
+
 
     requestAnimationFrame(draw);
 }
@@ -261,6 +300,7 @@ function start() {
     rightPressed = false;
 
     interval = setInterval(makeSaw, 2000);
+    timerInterval = setInterval(updateTimer, 1000);
     requestAnimationFrame(draw);
 }
 

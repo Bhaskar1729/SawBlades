@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"
 import { getFirestore, getDocs, collection, addDoc, doc, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyBmVdHkNgeCcFjjcijerCPZEEySCn1q7ZA",
     authDomain: "sawblades-f9106.firebaseapp.com",
@@ -38,4 +39,5 @@ export async function getLeaderboardItems() {
     }
     return arr;
 }
+
 

@@ -17,6 +17,14 @@ let minHighest = 500;
 let makeBladeTimer = 2500;
 let timerRunOut = false;
 let timeoutCompleted = false;
+let gameInterval;
+let fps = 120;
+let fpsInterval;
+let startTime;
+let now;
+let elapsed;
+let then;
+
 
 const err = 6;
 
@@ -39,7 +47,7 @@ function makeSaw() {
         let x = randInt(radius, canvas.width-radius);
         let y = 0;
         let vx = randInt(3, 4);
-        let vy = randInt(3, 4);
+        let vy = randInt(2, 4);
         let sign = randInt(0, 1);
         if (sign == 1) {
             vx = -vx;
@@ -176,14 +184,14 @@ async function endGame() {
     }
     x = -1000;
     y = -1000;
-    timer = 1000;
-
+    vy = -1000;
     if (val != null && val != "" && score > minHighest) {
         console.log(val + " " + score);
         await addToLeaderboard(val, score);
     }
     clearInterval(interval);
     clearInterval(timerInterval);
+    clearInterval(gameInterval);
     document.location.reload();
 }
 
@@ -274,14 +282,14 @@ function draw() {
 
 
     if (timeoutCompleted) {
-        let newTime = Math.max(1000, 2500-10*score);
+        let newTime = Math.max(1000, 2500-15*score);
         if (timerRunOut == true) {
             newTime = 750;
         }
         setTimeout(makeSaw, newTime);
         timeoutCompleted = false;
     }
-    requestAnimationFrame(draw);
+    // requestAnimationFrame(draw);
 }
 
 async function fillLeaderboard() {
@@ -301,7 +309,33 @@ async function fillLeaderboard() {
     console.log(minHighest)
 }
 
-function start() {
+
+function animate() {
+
+    // request another frame
+
+    requestAnimationFrame(animate);
+
+    // calc elapsed time since last loop
+
+    now = Date.now();
+    elapsed = now - then;
+
+    // if enough time has elapsed, draw the next frame
+
+    if (elapsed > fpsInterval) {
+
+        // Get ready for next frame by setting then=now, but also adjust for your
+        // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+        then = now - (elapsed % fpsInterval);
+
+        draw();
+
+    }
+}
+
+
+export function start() {
     
     fillLeaderboard();
     y = canvas.height - radius;
@@ -318,13 +352,11 @@ function start() {
 
     interval = setTimeout(makeSaw, 2500);
     timerInterval = setInterval(updateTimer, 1000);
-    requestAnimationFrame(draw);
+
+    fpsInterval = 1000/fps;
+    then = Date.now();
+    startTime = then;
+    animate();
 }
-
-
-
-
-
-start();
 
 

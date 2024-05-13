@@ -18,7 +18,7 @@ let makeBladeTimer = 2500;
 let timerRunOut = false;
 let timeoutCompleted = false;
 let gameInterval;
-let fps = 60;
+let fps = 90;
 let fpsInterval;
 let startTime;
 let now;
